@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Healthcare Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto p-4">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-blue-600">Welcome, {{ name }}!</h1>
+            <a href="{{ url_for('logout') }}" class="text-blue-600 hover:underline">Logout</a>
+        </div>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                        <p class="text-center text-sm text-green-600">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Location Selection -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Select Your Location</h2>
+            <form action="{{ url_for('dashboard') }}" method="POST">
+                <select name="location" class="w-full p-3 border rounded-md mb-4" required>
+                    <option value="">Select State</option>
+                    {% for state in states %}
+                        <option value="{{ state }}" {% if location == state %}selected{% endif %}>{{ state }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Update Location</button>
+            </form>
+            {% if location %}
+                <p class="mt-2 text-gray-600">Current Location: {{ location }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Features Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">Vaccination Reminders</h2>
+                <p class="text-gray-600">View detailed vaccination schedules and reminders.</p>
+                <a href="{{ url_for('vaccination') }}" class="text-blue-600 hover:underline">Go to Vaccination Reminders</a>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">Government Health Schemes</h2>
+                <p class="text-gray-600">Explore health insurance schemes available in your state.</p>
+                <a href="{{ url_for('health_schemes') }}" class="text-blue-600 hover:underline">Go to Health Schemes</a>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">Health Camp Notifications</h2>
+                <p class="text-gray-600">{{ location_data.camps }}</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">Elderly Care Guidance</h2>
+                <p class="text-gray-600">{{ location_data.elderly }}</p>
+            </div>
+        </div>
+
+        <!-- Impact Section -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Our Impact Goals in {{ location or 'Your Area' }}</h2>
+            <ul class="list-disc pl-5 text-gray-600">
+                <li>Increased Access: Free camps & vaccinations in {{ location or 'your area' }}</li>
+                <li>Improved Outcomes: Disease prevention through local health services</li>
+                <li>Empowered Communities: Health education tailored to {{ location or 'your region' }}</li>
+                <li>Elderly Support: Guidance for elderly in {{ location or 'your state' }}</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaccination Reminders - Healthcare Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto p-4">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-blue-600">Vaccination Reminders for {{ name }}</h1>
+            <a href="{{ url_for('logout') }}" class="text-blue-600 hover:underline">Logout</a>
+        </div>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                        <p class="text-center text-sm text-green-600">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Location Info -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Your Location: {{ location or 'Not Set' }}</h2>
+            <p class="text-gray-600">Change your location from the <a href="{{ url_for('dashboard') }}" class="text-blue-600 hover:underline">Dashboard</a>.</p>
+        </div>
+
+        <!-- Vaccination Reminders -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Newborn Vaccination Schedule</h2>
+            <p class="text-gray-600 whitespace-pre-line">{{ vaccination_data }}</p>
+            <p class="mt-4"><a href="{{ url_for('dashboard') }}" class="text-blue-600 hover:underline">Back to Dashboard</a></p>
+        </div>
+    </div>
+</body>
+</html>

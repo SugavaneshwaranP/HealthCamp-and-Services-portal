@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Healthcare Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+        <h1 class="text-2xl font-bold text-blue-600 mb-6 text-center">Login</h1>
+        
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                        <p class="text-center text-sm {% if 'successful' in message %}text-green-600{% else %}text-red-600{% endif %}">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('login') }}" method="POST">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-semibold mb-2" for="email">Email</label>
+                <input class="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                       type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-semibold mb-2" for="password">Password</label>
+                <input class="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                       type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button class="w-full bg-blue-600 text-white font-semibold py-3 rounded-md hover:bg-blue-700 transition duration-300" 
+                    type="submit">Login</button>
+        </form>
+        <p class="text-gray-600 text-sm text-center mt-4">
+            Don't have an account? <a href="{{ url_for('signup') }}" class="text-blue-600 hover:underline">Sign Up</a>
+        </p>
+        <p class="text-gray-600 text-sm text-center mt-2">
+            <a href="/" class="text-blue-600 hover:underline">Back to Start</a>
+        </p>
+    </div>
+</body>
+</html>
